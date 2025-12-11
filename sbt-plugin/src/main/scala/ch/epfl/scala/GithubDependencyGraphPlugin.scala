@@ -214,8 +214,8 @@ object GithubDependencyGraphPlugin extends AutoPlugin {
     val module = moduleReport.module
     val artifacts = moduleReport.artifacts.map { case (a, _) => a }
     val classifiers = artifacts.flatMap(_.classifier).filter(_ != "default").sorted
-//    val packaging = if (classifiers.nonEmpty) s"?packaging=${classifiers.mkString(",")}" else ""
-    s"pkg:maven/${module.organization}/${module.name}@${module.revision}"
+    val packaging = if (classifiers.nonEmpty) s"?packaging=${classifiers.head}" else ""
+    s"pkg:maven/${module.organization}/${module.name}@${module.revision}$packaging"
   }
 
   private def isRuntime(config: ConfigRef): Boolean = runtimeConfigs.contains(config)
